@@ -1,4 +1,3 @@
-package shigeta;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -7,6 +6,12 @@ public class CmdShop {
     // 商品情報の管理
     private Map<Integer, Item> items = new HashMap<>();
     private Scanner scanner = new Scanner(System.in);
+    
+    // 定数の管理
+    private static final int DEFAULT_STOCK = 10;
+    private static final int MIN_STOCK = 0;
+    private static final int MAX_STOCK = 99;
+
 
     // 商品クラス
     class Item {
@@ -36,16 +41,17 @@ public class CmdShop {
         }
     }
 
-    // 商品の期値をセット
+    // 商品の初期値をセット
     public CmdShop() {
-        items.put(1, new Item("りんご", 10));
-        items.put(2, new Item("みかん", 10));
+        items.put(1, new Item("りんご", DEFAULT_STOCK));
+        items.put(2, new Item("みかん", DEFAULT_STOCK));
     }
 
     // メインメソッド
     public static void main(String[] args) {
         CmdShop system = new CmdShop();
         system.run();
+        system.scanner.close();
     }
 
     // コマンドラインの実行
@@ -170,7 +176,7 @@ public class CmdShop {
 
     // 商品管理機能/在庫数を変更
     private void modifyItemStock(int itemId, int stock) {
-        if (stock < 0 || stock > 99) {
+        if (stock < MIN_STOCK || stock > MAX_STOCK) {
             System.out.println("在庫数が入力範囲外です。");
             return;
         }
